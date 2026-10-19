@@ -1,25 +1,25 @@
 # Houdini NG
 
-Instalador verificable de traducción ARM32 para laboratorios Genymotion Android 11.
+Verifiable ARM32 translation installer for Genymotion Android 11 lab devices.
 
 This fork turns the original manual ZIP recipe into a repeatable ARM32
 application-translation workflow for Genymotion Android 11 lab devices. It is
 intended for authorized mobile testing, not production devices.
 
-## Mejoras frente a la versión original
+## Improvements over the original version
 
-| Versión original | Esta versión |
+| Original version | Houdini NG |
 | --- | --- |
-| Pedía agregar propiedades con `tee -a` a dos archivos `build.prop`. Repetirlo podía duplicar claves. | Usa el servicio de inicio ABI que ya trae la imagen Genymotion comprobada. No modifica `build.prop`. |
-| Instalación manual del ZIP completo, con ARM32 y ARM64. | Instala un conjunto ARM32 de 340 archivos fijados por SHA-256 (120.276.446 bytes). ARM64 queda fuera del alcance probado. |
-| No verificaba identidad del dispositivo, hashes, modos ni resultado tras reiniciar. | Exige serial ADB explícito, Android 11/API 30, `vbox86p` y hashes conocidos del inicializador; comprueba archivos y bridge tras el reinicio. |
-| No definía una repetición segura ni recuperación. | Registra archivos creados, rechaza colisiones, admite una segunda ejecución sin cambios y ofrece rollback que se detiene si detecta drift. |
-| No distinguía un ABI anunciado de una aplicación funcional. | Prueba instalación y arranque por separado; documenta la falla real de React Native observada con los dos APK de prueba. |
+| Required appending properties with `tee -a` to two `build.prop` files, which could create duplicate keys on repeated runs. | Uses the ABI initialization service already present in the verified Genymotion image. Does not modify `build.prop`. |
+| Required manually installing the full ZIP, including ARM32 and ARM64 components. | Installs a SHA-256-pinned ARM32 subset of 340 files (120,276,446 bytes). ARM64 remains outside the tested scope. |
+| Did not verify device identity, hashes, file modes, or the post-reboot result. | Requires an explicit ADB serial, Android 11/API 30, `vbox86p`, and known initializer hashes; checks files and the native bridge after reboot. |
+| Did not define a safe repeat-install or recovery process. | Records created files, rejects collisions, supports a no-change second run, and provides rollback that stops when it detects drift. |
+| Did not distinguish an advertised ABI from a working application. | Tests installation and launch separately; documents the React Native failure observed with both test APKs. |
 
-El flujo instala `libhoudini.so`, el linker ARM32 y sus bibliotecas invitadas.
-No instala `/system/bin/houdini`, así que no habilita ejecución directa de
-binarios ARM mediante binfmt. Ajusta permisos, aplica `restorecon`, sincroniza
-y devuelve `/` a solo lectura antes de reiniciar.
+The workflow installs `libhoudini.so`, the ARM32 linker, and its guest libraries.
+It does not install `/system/bin/houdini`, so it does not enable direct execution
+of ARM binaries through binfmt. It sets permissions, runs `restorecon`, syncs,
+and remounts `/` read-only before rebooting.
 
 ## Safety boundary
 
