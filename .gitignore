@@ -1,0 +1,7 @@
+.audit/
+dist/
+state/
+evidence/
+*.apk
+*.log
+*.tar
