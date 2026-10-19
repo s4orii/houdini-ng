@@ -1,4 +1,6 @@
-# Genymotion Android 11 libhoudini — next-gen lab installer
+# Houdini NG
+
+Instalador verificable de traducción ARM32 para laboratorios Genymotion Android 11.
 
 This fork turns the original manual ZIP recipe into a repeatable ARM32
 application-translation workflow for Genymotion Android 11 lab devices. It is

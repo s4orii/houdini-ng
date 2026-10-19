@@ -1,4 +1,4 @@
-# Changes from upstream
+# Houdini NG — changes from upstream
 
 ## Next-gen ARM32 lab workflow
 
